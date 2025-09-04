@@ -8,7 +8,7 @@ import { QuickCreateTask } from '@/components/tasks/QuickCreateTask';
 import { Toaster } from '@/components/ui/sonner';
 import { useTasks } from '@/hooks/useTasks';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { BarChart3, Brain, ListTodo, PlusCircle } from 'lucide-react';
+import { BarChart3, Brain, ListTodo } from 'lucide-react';
 
 function App() {
   const {

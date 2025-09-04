@@ -16,14 +16,14 @@ const COLORS = {
 
 export function Charts({ stats }: ChartsProps) {
   const completionData = [
-    { name: 'Completed', value: stats.completed, color: COLORS.completed },
-    { name: 'Pending', value: stats.pending, color: COLORS.pending }
+    { name: 'Completed', value: stats.completed ?? 0, color: COLORS.completed },
+    { name: 'Pending', value: stats.pending ?? 0, color: COLORS.pending }
   ];
 
   const priorityData = [
-    { name: 'High', value: stats.high_priority, color: COLORS.high },
-    { name: 'Medium', value: stats.medium_priority, color: COLORS.medium },
-    { name: 'Low', value: stats.low_priority, color: COLORS.low }
+    { name: 'High', value: stats.high_priority ?? 0, color: COLORS.high },
+    { name: 'Medium', value: stats.medium_priority ?? 0, color: COLORS.medium },
+    { name: 'Low', value: stats.low_priority ?? 0, color: COLORS.low }
   ];
 
   return (
@@ -50,7 +50,7 @@ export function Charts({ stats }: ChartsProps) {
                   ))}
                 </Pie>
                 <Tooltip 
-                  formatter={(value) => [value, 'Tasks']}
+                  formatter={(value: number) => [value, 'Tasks']}
                   contentStyle={{
                     backgroundColor: 'white',
                     border: '1px solid #e2e8f0',
@@ -85,17 +85,18 @@ export function Charts({ stats }: ChartsProps) {
                 <XAxis dataKey="name" />
                 <YAxis />
                 <Tooltip 
-                  formatter={(value) => [value, 'Tasks']}
+                  formatter={(value: number) => [value, 'Tasks']}
                   contentStyle={{
                     backgroundColor: 'white',
                     border: '1px solid #e2e8f0',
                     borderRadius: '8px'
                   }}
                 />
+                {/* Use a static fill for Bar and rely on <Cell> to color each bar individually */}
                 <Bar 
                   dataKey="value" 
                   radius={[4, 4, 0, 0]}
-                  fill={(entry: any) => entry.color}
+                  fill={COLORS.medium}
                 >
                   {priorityData.map((entry, index) => (
                     <Cell key={`cell-${index}`} fill={entry.color} />
@@ -109,3 +110,5 @@ export function Charts({ stats }: ChartsProps) {
     </div>
   );
 }
+
+export default Charts;
