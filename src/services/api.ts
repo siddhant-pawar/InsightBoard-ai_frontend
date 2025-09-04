@@ -1,6 +1,6 @@
 import { Task, TaskFilter, ApiResponse } from '@/types';
 
-const BASE_URL = 'http://127.0.0.1:8000/api';
+const BASE_URL = 'https://insightboard-ai-production.up.railway.app/api';
 
 class ApiService {
   private async request<T>(
