@@ -1,29 +1,32 @@
-# Stage 1: Build the React app
+# Stage 1: Build the React app with Vite
 FROM node:18 AS builder
 
 # Set working directory
 WORKDIR /app
 
-# Copy package.json and package-lock.json (if exists)
+# Copy only the package files to install dependencies first
 COPY package*.json ./
 
-# Install dependencies
+# Install app dependencies
 RUN npm install
 
 # Copy the rest of the app source code
 COPY . .
 
-# Build the React app
+# Build the app using Vite (skip strict tsc checks)
 RUN npm run build
 
-# Stage 2: Serve with a lightweight web server (nginx)
+# Stage 2: Serve with Nginx
 FROM nginx:alpine
 
-# Copy built React files from builder to nginx's public directory
-COPY --from=builder /app/build /usr/share/nginx/html
+# Copy built static files to Nginx's public directory
+COPY --from=builder /app/dist /usr/share/nginx/html
 
-# Expose port 3000 (React runs on 3000 during dev, but Nginx serves on 80)
+# Optional: Remove default Nginx config and add custom one (if needed)
+# COPY nginx.conf /etc/nginx/nginx.conf
+
+# Expose port 80 inside the container
 EXPOSE 80
 
-# Start nginx
+# Start Nginx server
 CMD ["nginx", "-g", "daemon off;"]
